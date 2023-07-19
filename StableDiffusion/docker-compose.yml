@@ -1,0 +1,27 @@
+services:
+  sd:
+    image: ownimage-stablediffusion:latest
+    command: tail -f /dev/null
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    ports:
+      - 7860:7860
+    volumes:
+      - p:\git\stable-diffusion-webui\models:/home/sd/stable-diffusion-webui/models
+
+  proxy:
+    image: ownimage-stablediffusion-proxy:latest
+    environment:
+      - BASIC_USERNAME=Beaver1991
+      - BASIC_PASSWORD=Tamathiel
+      - BACKEND_SERVICE=http://sd:7860/
+      - FRONTEND_ADDRESS=http://localhost:8080/
+    ports:
+      - 8080:80
+
+

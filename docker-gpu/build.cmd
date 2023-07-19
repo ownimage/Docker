@@ -1,0 +1,1 @@
+docker build . -t ownimage-nvidia:latest
